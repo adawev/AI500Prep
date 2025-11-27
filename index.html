@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI500 - Construction Management App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            line-height: 1.8;
+            color: #000000;
+            background: #f5f5f5;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #000000 0%, #2d2d2d 100%);
+            color: white;
+            padding: 50px 40px;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        section {
+            background: white;
+            margin-bottom: 30px;
+            padding: 35px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #000000;
+            margin-bottom: 25px;
+            font-size: 2em;
+            font-weight: 700;
+            border-bottom: 3px solid #000000;
+            padding-bottom: 12px;
+        }
+
+        h3 {
+            color: #1a1a1a;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .problem-solution {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .problem-box, .solution-box {
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid;
+        }
+
+        .problem-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            border-color: #dc2626;
+            border-left: 6px solid #dc2626;
+        }
+
+        .problem-box h3 {
+            color: #dc2626;
+        }
+
+        .solution-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-color: #16a34a;
+            border-left: 6px solid #16a34a;
+        }
+
+        .solution-box h3 {
+            color: #16a34a;
+        }
+
+        .field-tag {
+            display: inline-block;
+            background: #000000;
+            color: white;
+            padding: 10px 20px;
+            margin: 12px 0;
+            font-weight: 600;
+            border-radius: 6px;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .team-member {
+            background: #ffffff;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            border-color: #000000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+
+        .team-member h4 {
+            color: #000000;
+            margin-bottom: 8px;
+            font-size: 1.25em;
+            font-weight: 700;
+        }
+
+        .team-member .role {
+            color: #666666;
+            font-weight: 600;
+            margin-bottom: 12px;
+            background: #f5f5f5;
+            padding: 6px 12px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .team-member .links {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .team-member a {
+            display: inline-block;
+            color: #000000;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid #000000;
+            transition: all 0.2s ease;
+        }
+
+        .team-member a:hover {
+            color: #666666;
+            border-bottom-color: #666666;
+        }
+
+        .strengths-list {
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            padding: 25px;
+            border-left: 5px solid #000000;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .strengths-list ul {
+            margin-left: 20px;
+            margin-top: 12px;
+        }
+
+        .strengths-list li {
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        .roadmap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            color: white;
+            padding: 35px;
+            margin-top: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .stage {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            padding: 15px;
+        }
+
+        .stage::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            opacity: 0.4;
+        }
+
+        .stage:last-child::after {
+            content: '';
+        }
+
+        .stage.active {
+            background: #ffffff;
+            color: #000000;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 20px 15px;
+        }
+
+        .stage h4 {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .next-steps {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            padding: 25px;
+            margin-top: 25px;
+            border-left: 5px solid #f59e0b;
+            border-radius: 8px;
+        }
+
+        .next-steps h3 {
+            color: #92400e;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .tech-item {
+            background: #000000;
+            color: white;
+            padding: 12px 25px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            background: #333333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .ai-feature {
+            background: linear-gradient(135deg, #1e1e1e 0%, #000000 100%);
+            color: white;
+            padding: 30px;
+            margin-top: 25px;
+            border-radius: 10px;
+            border: 3px solid #333333;
+        }
+
+        .ai-feature h4 {
+            color: white;
+            margin-bottom: 12px;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .steps-list {
+            background: #fafafa;
+            padding: 25px;
+            margin-top: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .steps-list ol {
+            margin-left: 20px;
+            margin-top: 12px;
+        }
+
+        .steps-list li {
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: white;
+            margin-top: 50px;
+            border-radius: 12px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .important-note {
+            background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);
+            border: 3px solid #ca8a04;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 8px;
+        }
+
+        .important-note strong {
+            color: #713f12;
+            font-weight: 700;
+        }
+
+        ul, ol {
+            line-height: 1.8;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            section {
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .problem-solution {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 30px 25px;
+                border-radius: 8px;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+
+            section {
+                padding: 25px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+            }
+
+            .roadmap {
+                flex-direction: column;
+                gap: 15px;
+                padding: 25px;
+                border-radius: 8px;
+            }
+
+            .stage {
+                padding: 12px;
+            }
+
+            .stage::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -25px;
+            }
+
+            .stage:last-child::after {
+                content: '';
+            }
+
+            .stage.active {
+                border-radius: 6px;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>UstaBek</h1>
+            <p>Qurilish Ustalarini Boshqarish Tizimi | AI500 Musobaqa Arizasi</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Section 1: Problem & Solution -->
+        <section id="problem-solution">
+            <h2>1. Muammo va Yechim</h2>
+
+            <div class="field-tag">Soha: Qurilish / Construction</div>
+
+            <div class="problem-solution">
+                <div class="problem-box">
+                    <h3>Muammo</h3>
+                    <p>Hozirgi vaqtda qurilish ustalari uy egalari tomonidan buyurtma qilingan mahsulotlar ro'yxatini daftarlarda qo'lda yozib boradi. Bu quyidagi muammolarga olib keladi:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>To'lovlar qabul qilinganda uni yozib qo'yish esdan chiqadi</li>
+                        <li>Ma'lumotlar turli daftarlarda tarqoq holda saqlanadi</li>
+                        <li>Kerakli ma'lumotni qidirish uchun ko'p vaqt ketadi</li>
+                        <li>Daftar katta bo'lganda navigatsiya qilish qiyin</li>
+                        <li>Barcha ma'lumotlar qog'oz shaklida, zamonaviy emas</li>
+                    </ul>
+                </div>
+
+                <div class="solution-box">
+                    <h3>Yechim</h3>
+                    <p>Biz barcha jarayonlarni raqamlashtiruvchi mobil/veb ilovani yaratmoqdamiz:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Loyiha boshqaruvi:</strong> Ustalar loyihalar yaratishi, deadline va to'lovlarni belgilashi mumkin</li>
+                        <li><strong>Mahsulotlar ro'yxati:</strong> Barcha buyurtmalar raqamli shaklda saqlanadi</li>
+                        <li><strong>Jamoa boshqaruvi:</strong> Qo'l ostidagi ustalarni loyihaga qo'shish va ularga vazifalar belgilash</li>
+                        <li><strong>To'lovlarni kuzatish:</strong> Barcha to'lovlar avtomatik yozib boriladi va oson qidiriladi</li>
+                        <li><strong>AI vizualizatsiya:</strong> Xona o'lchovlari va rasmlari asosida mahsulotlarni (rakovina, dush va h.k.) 3D ko'rinishda joylashtirish - 3D dizaynerlar kerak emas!</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Team Information -->
+        <section id="team">
+            <h2>2. Jamoa Haqida Ma'lumot</h2>
+
+            <div class="important-note">
+                <strong>MUHIM:</strong> Barcha jamoa a'zolari AI500! Telegram boti orqali ro'yxatdan o'tgan.
+            </div>
+
+            <div class="team-grid">
+                <div class="team-member">
+                    <h4>Adashov Diyorjon</h4>
+                    <div class="role">Founder & Project Manager</div>
+                    <p><strong>Ko'nikmalar:</strong> Full Stack Development, CI/CD, Project Management, Qurilish sohasida 4 yillik tajriba</p>
+                    <div class="links">
+                        <a href="https://github.com/adawev" target="_blank">GitHub →</a>
+                        <a href="https://adashev.uz" target="_blank">Portfolio →</a>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <h4>Isayev Alibek</h4>
+                    <div class="role">UI/UX Designer</div>
+                    <p><strong>Ko'nikmalar:</strong> UI/UX Design, Figma, User Research, Prototyping</p>
+                    <div class="links">
+                        <a href="https://github.com/0-ATOM-0" target="_blank">GitHub →</a>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <h4>Tursunboyev Odiljon</h4>
+                    <div class="role">Backend Developer</div>
+                    <p><strong>Ko'nikmalar:</strong> Java, Spring Boot, Database Design, RESTful APIs</p>
+                    <div class="links">
+                        <a href="https://github.com/OdilbekOlimovic" target="_blank">GitHub →</a>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <h4>Komiljonov Shoxrux</h4>
+                    <div class="role">Backend Developer</div>
+                    <p><strong>Ko'nikmalar:</strong> Java, Spring Boot, Microservices, API Development</p>
+                    <div class="links">
+                        <a href="https://github.com/KomiljonovShoxrux" target="_blank">GitHub →</a>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <h4>Lutfiyev Ilyosjon</h4>
+                    <div class="role">Backend Developer</div>
+                    <p><strong>Ko'nikmalar:</strong> Java, Spring Boot, Database Management, Backend Architecture</p>
+                    <div class="links">
+                        <a href="https://github.com/Ilyos056" target="_blank">GitHub →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Why This Team -->
+        <section id="why-team">
+            <h2>3. Nega Aynan Bizning Jamoamiz Bu Muammoni Hal Qila Oladi</h2>
+
+            <div class="strengths-list">
+                <h3>Kuchli Tomonlarimiz:</h3>
+                <ul>
+                    <li><strong>Soha tajribasi:</strong> Jamoa asoschisi Diyorjon Adashov 4 yildan beri qurilish sohasida ishlagan va hozirda shu sohaga aloqador biznesi mavjud. Bu bizga muammoni ichkaridan tushunish imkonini beradi.</li>
+                    <li><strong>Real muammolarni tushunish:</strong> Biz ustalar bilan bevosita ishlab, ularning kundalik qiyinchiliklarini chuqur o'rganib chiqdik va sistemalarini tahlil qildik.</li>
+                    <li><strong>Texnik qobiliyat:</strong> 3 ta tajribali Backend Developer + 1 Full Stack Developer. Ular o'rganishga ochiq va yangi texnologiyalarni tez o'zlashtiradi.</li>
+                    <li><strong>DevOps tajribasi:</strong> Founder tomonidan CI/CD jarayonlarini sozlash va backend xatolarini tuzatish tajribasi mavjud.</li>
+                    <li><strong>Foydalanuvchi tajribasi:</strong> Professional UI/UX designer jamoada - bu oddiy va qulay interfeys yaratishni ta'minlaydi.</li>
+                    <li><strong>To'liq tsikl rivojlantirish:</strong> Frontend, Backend, Design va DevOps - barcha yo'nalishlar qoplanadi.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 4: Roadmap & Stage -->
+        <section id="roadmap">
+            <h2>4. Yo'l Xaritasi va Hozirgi Bosqich</h2>
+
+            <div class="roadmap">
+                <div class="stage">
+                    <h4>G'oya</h4>
+                    <p>✓ Tugallandi</p>
+                </div>
+                <div class="stage active">
+                    <h4>Prototip</h4>
+                    <p>⚙️ Hozir</p>
+                </div>
+                <div class="stage">
+                    <h4>MVP</h4>
+                    <p>Jarayonda</p>
+                </div>
+                <div class="stage">
+                    <h4>Ishga tushirish</h4>
+                    <p>Rejalashtirilgan</p>
+                </div>
+            </div>
+
+            <div class="next-steps">
+                <h3>Keyingi Qadamlar:</h3>
+                <ol style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>MVP yakunlash:</strong> Asosiy funksiyalarni to'liq ishlaydigan holatga keltirish</li>
+                    <li><strong>Kengaytirilgan testing:</strong> Hozirda 2-3 ta usta bilan test qilmoqdamiz, keyingi bosqichda 10-15 ta ustaga taqdim etish</li>
+                    <li><strong>Feedback yig'ish:</strong> Real foydalanuvchilardan fikr-mulohazalar to'plash va muammolarni aniqlash</li>
+                    <li><strong>Optimizatsiya:</strong> Aniqlangan muammolarni hal qilish va UX/UI ni yaxshilash</li>
+                    <li><strong>Marketing va reklama:</strong> Mahsulotni keng auditoriyaga taqdim etish</li>
+                    <li><strong>Investitsiya jalb qilish:</strong> Loyihani kengaytirish uchun moliyalashtirish topish</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Section 5: Solution Approach -->
+        <section id="solution-approach">
+            <h2>5. Muammoni Qanday Hal Qilmoqchimiz</h2>
+
+            <div class="steps-list">
+                <h3>Asosiy Qadamlar:</h3>
+                <ol>
+                    <li><strong>Foydalanuvchi autentifikatsiyasi:</strong> Ustalar va uy egalari uchun xavfsiz login tizimi</li>
+                    <li><strong>Loyiha boshqaruvi moduli:</strong> Loyihalar yaratish, tahrirlash va kuzatish</li>
+                    <li><strong>Mahsulotlar ro'yxati:</strong> Har bir loyiha uchun mahsulotlar va materiallar ro'yxatini boshqarish</li>
+                    <li><strong>To'lov tizimi:</strong> To'lovlarni qayd qilish, kuzatish va hisobot olish</li>
+                    <li><strong>Jamoa boshqaruvi:</strong> Qo'shimcha ustalarni qo'shish va vazifalar berish</li>
+                    <li><strong>AI vizualizatsiya:</strong> Computer Vision orqali xonalarni tahlil qilish va 3D ko'rinishda mahsulotlarni joylashtirish</li>
+                    <li><strong>Hisobotlar va statistika:</strong> Loyihalar, to'lovlar va xarajatlar bo'yicha umumiy ma'lumotlar</li>
+                </ol>
+            </div>
+
+            <h3>Texnologik Stack:</h3>
+            <div class="tech-stack">
+                <div class="tech-item">Frontend: React + Vite</div>
+                <div class="tech-item">Backend: Java Spring Boot</div>
+                <div class="tech-item">Database: PostgreSQL</div>
+                <div class="tech-item">CI/CD: GitHub Actions</div>
+            </div>
+
+            <div class="ai-feature">
+                <h4>🤖 AI Texnologiyalar</h4>
+                <p><strong>Computer Vision va 3D Vizualizatsiya:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Usta xona o'lchamlarini kiritadi</li>
+                    <li>Xonaning rasmlarini yuklaydi</li>
+                    <li>AI xonani tahlil qiladi va 3D model yaratadi</li>
+                    <li>Uy egasi tomonidan tanlangan mahsulotlar (rakovina, dush, plitka va h.k.) xonaga virtual ravishda joylashtiriladi</li>
+                    <li>Uy egasi yakuniy natijani ko'rishi mumkin - 3D dizayner yollash shart emas!</li>
+                    <li>Bu jarayon uy egalari uchun vizualizatsiyani osonlashtiradi va ustaga ishonchni oshiradi</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 UstaBek - Qurilish Ustalarini Boshqarish Tizimi | AI500 Musobaqa Arizasi</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Founder: Adashov Diyorjon | <a href="https://adashev.uz" style="color: white;">adashev.uz</a></p>
+        </div>
+    </footer>
+</body>
+</html>
